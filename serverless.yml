@@ -1,5 +1,5 @@
 org: gberdejo
-service: template-lambda-aws
+service: pre-token
 
 plugins:
   - serverless-offline
@@ -47,7 +47,7 @@ resources:
     CtvUsersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ctv-users-${self:custom.stage}
+        TableName: tbl-users-${self:custom.stage}
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
           - AttributeName: PK
