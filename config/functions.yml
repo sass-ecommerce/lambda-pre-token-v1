@@ -1,4 +1,4 @@
 preToken:
   handler: src/preToken/index.preToken
-  name: ${self:service}-${self:custom.stage}-${self:custom.lambdaPostConfirmation}
+  name: ${self:service}-${self:custom.stage}-${self:custom.lambdaName}
   disableLogs: true

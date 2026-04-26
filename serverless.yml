@@ -17,6 +17,7 @@ build:
 custom:
   stage: ${opt:stage, 'dev'}
   env: ${file(config/${self:custom.stage}.yml)}
+  lambdaName: pre-token
 
 provider:
   name: aws
@@ -41,7 +42,7 @@ resources:
     PreTokenLogGroup:
       Type: AWS::Logs::LogGroup
       Properties:
-        LogGroupName: /aws/lambda/${self:service}-${self:custom.stage}-preToken
+        LogGroupName: /aws/lambda/${self:service}-${self:custom.stage}-${self:custom.lambdaName}
         LogGroupClass: INFREQUENT_ACCESS
 
     CtvUsersTable:
