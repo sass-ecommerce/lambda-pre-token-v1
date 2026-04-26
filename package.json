@@ -1,0 +1,29 @@
+{
+  "name": "template-lambda-aws",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "serverless offline start",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.145",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.0.0",
+    "esbuild": "^0.24.0",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "jest": "^30.2.0",
+    "prettier": "^3.0.0",
+    "serverless-esbuild": "^1.52.0",
+    "serverless-offline": "^14.5.0",
+    "ts-jest": "^29.4.6",
+    "typescript": "^5.0.0",
+    "typescript-eslint": "^8.0.0"
+  }
+}

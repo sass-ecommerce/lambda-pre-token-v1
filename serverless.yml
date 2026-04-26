@@ -1,0 +1,38 @@
+org: gberdejo
+service: template-lambda-aws
+
+plugins:
+  - serverless-offline
+
+build:
+  esbuild:
+    bundle: true
+    minify: false
+    sourcemap: true
+    target: node24
+    platform: node
+    external:
+      - '@aws-sdk/*'
+
+custom:
+  stage: ${opt:stage, 'dev'}
+  env: ${file(config/${self:custom.stage}.yml)}
+
+provider:
+  name: aws
+  runtime: nodejs24.x
+  stage: ${self:custom.stage}
+  environment: ${self:custom.env}
+  # Uncomment to easily set up a custom domain. Read the docs for more details:
+  # https://www.serverless.com/framework/docs/providers/aws/guide/domains
+  # domain: api.example.com
+
+functions: ${file(config/functions.yml)}
+
+resources:
+  Resources:
+    HelloLogGroup:
+      Type: AWS::Logs::LogGroup
+      Properties:
+        LogGroupName: /aws/lambda/${self:service}-${self:custom.stage}-hello
+        LogGroupClass: INFREQUENT_ACCESS

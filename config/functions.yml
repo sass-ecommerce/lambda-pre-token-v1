@@ -1,0 +1,7 @@
+hello:
+  handler: src/hello/index.hello
+  disableLogs: true
+  events:
+    - httpApi:
+        path: /
+        method: get
