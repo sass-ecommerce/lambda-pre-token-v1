@@ -23,6 +23,13 @@ provider:
   runtime: nodejs24.x
   stage: ${self:custom.stage}
   environment: ${self:custom.env}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:GetItem
+          Resource: !GetAtt CtvUsersTable.Arn
   # Uncomment to easily set up a custom domain. Read the docs for more details:
   # https://www.serverless.com/framework/docs/providers/aws/guide/domains
   # domain: api.example.com
@@ -31,8 +38,20 @@ functions: ${file(config/functions.yml)}
 
 resources:
   Resources:
-    HelloLogGroup:
+    PreTokenLogGroup:
       Type: AWS::Logs::LogGroup
       Properties:
-        LogGroupName: /aws/lambda/${self:service}-${self:custom.stage}-hello
+        LogGroupName: /aws/lambda/${self:service}-${self:custom.stage}-preToken
         LogGroupClass: INFREQUENT_ACCESS
+
+    CtvUsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ctv-users-${self:custom.stage}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: PK
+            AttributeType: S
+        KeySchema:
+          - AttributeName: PK
+            KeyType: HASH

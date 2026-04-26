@@ -1,7 +1,3 @@
-hello:
-  handler: src/hello/index.hello
+preToken:
+  handler: src/preToken/index.preToken
   disableLogs: true
-  events:
-    - httpApi:
-        path: /
-        method: get
