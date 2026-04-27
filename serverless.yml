@@ -26,12 +26,7 @@ provider:
   environment: ${self:custom.env}
   iam:
     role:
-      statements:
-        - Effect: Allow
-          Action:
-            - dynamodb:GetItem
-          Resource:
-            - arn:aws:dynamodb:*:*:table/tbl-users-${self:custom.stage}
+      arn: arn:aws:iam::005602595686:role/role-chapa-tu-venta-v1
 
 functions: ${file(config/functions.yml)}
 
