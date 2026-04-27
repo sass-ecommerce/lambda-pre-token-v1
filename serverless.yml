@@ -25,8 +25,7 @@ provider:
   stage: ${self:custom.stage}
   environment: ${self:custom.env}
   iam:
-    role:
-      arn: arn:aws:iam::005602595686:role/role-chapa-tu-venta-v1
+    role: arn:aws:iam::005602595686:role/role-chapa-tu-venta-v1
 
 functions: ${file(config/functions.yml)}
 
