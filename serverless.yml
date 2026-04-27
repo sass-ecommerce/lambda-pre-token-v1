@@ -31,10 +31,7 @@ provider:
           Action:
             - dynamodb:GetItem
           Resource:
-            - Fn::Sub: 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/tbl-users-${self:custom.stage}'
-  # Uncomment to easily set up a custom domain. Read the docs for more details:
-  # https://www.serverless.com/framework/docs/providers/aws/guide/domains
-  # domain: api.example.com
+            - arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/tbl-users-${self:custom.stage}
 
 functions: ${file(config/functions.yml)}
 
