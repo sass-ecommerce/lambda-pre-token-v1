@@ -1,4 +1,4 @@
 preToken:
   handler: src/preToken/index.preToken
-  name: ${self:service}-${self:custom.stage}-${self:custom.lambdaName}
+  name: ${self:custom.project}-${self:custom.resource}-${self:custom.lambdaName}-${self:custom.stage}
   disableLogs: true
