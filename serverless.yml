@@ -18,6 +18,7 @@ custom:
   stage: ${opt:stage, 'dev'}
   env: ${file(config/${self:custom.stage}.yml)}
   lambdaName: pre-token
+  lambdaRoleArn: ${ssm:/${self:custom.stage}/ctv/iam/lambda-role-arn}
 
 provider:
   name: aws
@@ -25,7 +26,7 @@ provider:
   stage: ${self:custom.stage}
   environment: ${self:custom.env}
   iam:
-    role: arn:aws:iam::005602595686:role/role-chapa-tu-venta-v1
+    role: ${self:custom.lambdaRoleArn}
 
 functions: ${file(config/functions.yml)}
 
