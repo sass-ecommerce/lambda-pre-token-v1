@@ -27,8 +27,6 @@ provider:
   runtime: nodejs24.x
   stage: ${self:custom.stage}
   stackName: ${self:custom.project}-${self:custom.resource}-${self:custom.lambdaName}-${self:custom.stage}
-  deploymentBucket:
-    name: ${self:custom.project}-${self:custom.resource}-${self:custom.lambdaName}-${self:custom.stage}
   environment: ${self:custom.env}
   iam:
     role: ${self:custom.lambdaRoleArn}
