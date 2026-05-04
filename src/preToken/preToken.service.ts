@@ -7,13 +7,13 @@ const defaultDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 const TABLE_NAME = process.env.USERS_TABLE_NAME!;
 
 export const buildClaims = async (
-  sub: string,
+  userId: string,
   docClient = defaultDocClient,
 ): Promise<Record<string, string>> => {
   const { Item } = await docClient.send(
     new GetCommand({
       TableName: TABLE_NAME,
-      Key: { PK: `USER#${sub}` },
+      Key: { PK: userId },
     }),
   );
 

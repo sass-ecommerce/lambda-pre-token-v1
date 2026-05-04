@@ -4,8 +4,8 @@ import { buildClaims } from './preToken.service';
 export const preToken = async (
   event: PreTokenGenerationV2TriggerEvent,
 ): Promise<PreTokenGenerationV2TriggerEvent> => {
-  const sub = event.request.userAttributes['sub'];
-  const claims = await buildClaims(sub);
+  const userId = event.request.userAttributes['custom:id'];
+  const claims = await buildClaims(userId);
 
   return {
     ...event,
