@@ -11,6 +11,7 @@ export const buildClaims = async (
   sub: string,
   docClient = defaultDocClient,
 ): Promise<Record<string, string>> => {
+  console.log('buildClaims input', { userId, sub, TABLE_NAME });
   let Item: Record<string, unknown> | undefined;
 
   try {
@@ -26,6 +27,7 @@ export const buildClaims = async (
   }
 
   const firstTenant = (Item as UserItem | undefined)?.tenants?.[0];
+  console.log('buildClaims output', { firstTenant });
 
   if (!firstTenant) {
     return {};
