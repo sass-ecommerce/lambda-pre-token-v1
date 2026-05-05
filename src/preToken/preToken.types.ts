@@ -8,7 +8,8 @@ export interface TenantItem {
 }
 
 export interface UserItem {
-  PK: string;
+  id: string;
+  sub: string;
   email: string;
   firstName: string;
   lastName: string;

@@ -8,14 +8,22 @@ const TABLE_NAME = process.env.USERS_TABLE_NAME!;
 
 export const buildClaims = async (
   userId: string,
+  sub: string,
   docClient = defaultDocClient,
 ): Promise<Record<string, string>> => {
-  const { Item } = await docClient.send(
-    new GetCommand({
-      TableName: TABLE_NAME,
-      Key: { PK: userId },
-    }),
-  );
+  let Item: Record<string, unknown> | undefined;
+
+  try {
+    ({ Item } = await docClient.send(
+      new GetCommand({
+        TableName: TABLE_NAME,
+        Key: { id: userId, sub },
+      }),
+    ));
+  } catch (error) {
+    console.error('Failed to fetch user from DynamoDB', { userId, sub, error });
+    throw error;
+  }
 
   const firstTenant = (Item as UserItem | undefined)?.tenants?.[0];
 
