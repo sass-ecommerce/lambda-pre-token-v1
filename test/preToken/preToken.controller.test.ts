@@ -15,7 +15,7 @@ const mockEvent: PreTokenGenerationV2TriggerEvent = {
   userName: 'test-user',
   callerContext: { awsSdkVersion: '1.0', clientId: 'test-client' },
   request: {
-    userAttributes: { sub: 'test-sub', email: 'test@example.com' },
+    userAttributes: { sub: 'test-sub', 'custom:id': 'test-user-id', email: 'test@example.com' },
     groupConfiguration: {},
     scopes: [],
   },
@@ -25,10 +25,10 @@ const mockEvent: PreTokenGenerationV2TriggerEvent = {
 describe('preToken controller', () => {
   beforeEach(() => mockBuildClaims.mockReset());
 
-  it('passes the sub from userAttributes to buildClaims', async () => {
+  it('passes custom:id and sub from userAttributes to buildClaims', async () => {
     mockBuildClaims.mockResolvedValueOnce({ tenantId: 'uuid-tenant-1' });
     await preToken(mockEvent);
-    expect(mockBuildClaims).toHaveBeenCalledWith('test-sub');
+    expect(mockBuildClaims).toHaveBeenCalledWith('test-user-id', 'test-sub');
   });
 
   it('adds tenantId to accessTokenGeneration claims', async () => {

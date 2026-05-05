@@ -3,7 +3,8 @@ import { buildClaims } from '../../src/preToken/preToken.service';
 import { UserItem } from '../../src/preToken/preToken.types';
 
 const mockUser: UserItem = {
-  PK: 'USER#test-sub',
+  id: 'test-user-id',
+  sub: 'test-sub',
   email: 'dueno@mitiendita.pe',
   firstName: 'Carlos',
   lastName: 'Mendoza',
@@ -39,26 +40,26 @@ describe('buildClaims', () => {
 
   it('returns tenantId from the first tenant', async () => {
     mockSend.mockResolvedValueOnce({ Item: mockUser });
-    const claims = await buildClaims('test-sub', mockDocClient);
+    const claims = await buildClaims('test-user-id', 'test-sub', mockDocClient);
     expect(claims).toEqual({ tenantId: 'uuid-tenant-1' });
   });
 
   it('returns empty claims when user is not found', async () => {
     mockSend.mockResolvedValueOnce({ Item: undefined });
-    const claims = await buildClaims('unknown-sub', mockDocClient);
+    const claims = await buildClaims('unknown-id', 'unknown-sub', mockDocClient);
     expect(claims).toEqual({});
   });
 
   it('returns empty claims when tenants array is empty', async () => {
     mockSend.mockResolvedValueOnce({ Item: { ...mockUser, tenants: [] } });
-    const claims = await buildClaims('test-sub', mockDocClient);
+    const claims = await buildClaims('test-user-id', 'test-sub', mockDocClient);
     expect(claims).toEqual({});
   });
 
-  it('queries DynamoDB with USER#<sub> as PK', async () => {
+  it('queries DynamoDB with id and sub as keys', async () => {
     mockSend.mockResolvedValueOnce({ Item: mockUser });
-    await buildClaims('abc-123', mockDocClient);
+    await buildClaims('abc-123', 'test-sub', mockDocClient);
     const commandInput = mockSend.mock.calls[0][0].input;
-    expect(commandInput.Key).toEqual({ PK: 'USER#abc-123' });
+    expect(commandInput.Key).toEqual({ id: 'abc-123', sub: 'test-sub' });
   });
 });
