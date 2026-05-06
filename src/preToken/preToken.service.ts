@@ -11,23 +11,14 @@ export const buildClaims = async (
   sub: string,
   docClient = defaultDocClient,
 ): Promise<Record<string, string>> => {
-  console.log('buildClaims input', { userId, sub, TABLE_NAME });
-  let Item: Record<string, unknown> | undefined;
-
-  try {
-    ({ Item } = await docClient.send(
-      new GetCommand({
-        TableName: TABLE_NAME,
-        Key: { id: userId, sub },
-      }),
-    ));
-  } catch (error) {
-    console.error('Failed to fetch user from DynamoDB', { userId, sub, error });
-    throw error;
-  }
+  const { Item } = await docClient.send(
+    new GetCommand({
+      TableName: TABLE_NAME,
+      Key: { id: userId, sub },
+    }),
+  );
 
   const firstTenant = (Item as UserItem | undefined)?.tenants?.[0];
-  console.log('buildClaims output', { firstTenant });
 
   if (!firstTenant) {
     return {};
