@@ -16,7 +16,7 @@ export const preToken = async (
     response: {
       claimsAndScopeOverrideDetails: {
         accessTokenGeneration: {
-          claimsToAddOrOverride: claims,
+          claimsToAddOrOverride: { ...claims, id: userId },
         },
       },
     },
