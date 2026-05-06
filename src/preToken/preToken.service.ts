@@ -10,7 +10,7 @@ export const buildClaims = async (
   userId: string,
   sub: string,
   docClient = defaultDocClient,
-): Promise<Record<string, string[]>> => {
+): Promise<Record<string, string>> => {
   console.log('buildClaims input', { userId, sub, TABLE_NAME });
   let Item: Record<string, unknown> | undefined;
 
@@ -33,5 +33,5 @@ export const buildClaims = async (
     return {};
   }
 
-  return { tenantId: [firstTenant.tenantId] };
+  return { tenantId: firstTenant.tenantId };
 };

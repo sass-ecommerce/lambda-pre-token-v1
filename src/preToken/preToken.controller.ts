@@ -9,14 +9,22 @@ export const preToken = async (
 
   const userId = event.request.userAttributes['custom:id'];
   const sub = event.request.userAttributes['sub'];
-  const claims = await buildClaims(userId, sub);
+
+  let claims: Record<string, string> = {};
+  if (userId && sub) {
+    try {
+      claims = await buildClaims(userId, sub);
+    } catch (error) {
+      console.error('Failed to build claims, returning minimal claims', { userId, sub, error });
+    }
+  }
 
   return {
     ...event,
     response: {
       claimsAndScopeOverrideDetails: {
         accessTokenGeneration: {
-          claimsToAddOrOverride: { ...claims, id: userId },
+          claimsToAddOrOverride: { ...claims, ...(userId ? { id: userId } : {}) },
         },
       },
     },
