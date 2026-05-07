@@ -1,19 +1,16 @@
 import { PreTokenGenerationV2TriggerEvent } from 'aws-lambda';
-import { buildClaims } from './preToken.service';
 
 export const preToken = async (
   event: PreTokenGenerationV2TriggerEvent,
 ): Promise<PreTokenGenerationV2TriggerEvent> => {
-  const userId = event.request.userAttributes['custom:id'];
-  const sub = event.request.userAttributes['sub'];
-  const claims = await buildClaims(userId, sub);
+  const { 'custom:id': id, 'custom:tenantId': tenantId } = event.request.userAttributes;
 
   return {
     ...event,
     response: {
       claimsAndScopeOverrideDetails: {
         accessTokenGeneration: {
-          claimsToAddOrOverride: { ...claims, id: userId },
+          claimsToAddOrOverride: { id, tenantId },
         },
       },
     },
